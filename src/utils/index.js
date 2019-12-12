@@ -1,23 +1,25 @@
-let temps = {};
+import StringUtils from './StringUtils';
+
+const utils = {
+  StringUtils,
+};
 
 function registerAllUtils() {
   const requireUtils = require.context(
     './',
     true,
-    /[^(index)|(init)]\.js$/
+    /[^(index)|(init)|(StringUtils)]\.js$/
   );
 
   requireUtils.keys().forEach((path) => {
     const util = requireUtils(path);
-    temps = {
-      ...temps,
+    const utilName = StringUtils.getFileNameByPath(path);
+    utils[utilName] = {
       ...util.default,
     };
   });
 }
 
 registerAllUtils();
-
-const utils = temps;
 
 export default utils;
