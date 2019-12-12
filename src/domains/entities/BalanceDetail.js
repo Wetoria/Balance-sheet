@@ -15,7 +15,11 @@ class BalanceDetail {
     if (detail instanceof Object) {
       for (const [key, value] of Object.entries(detail)) {
         if (key === 'children') {
-          this[key] = value.map(child => new BalanceDetail(child));
+          this[key] = value.map((child) => {
+            const childDetail = new BalanceDetail(child);
+            childDetail.updateParentAmount = this.recountAmount;
+            return childDetail;
+          });
         } else {
           this[key] = value;
         }
@@ -47,7 +51,7 @@ class BalanceDetail {
   refreshChildrenKey = () => {
     const { children } = this;
     if (this.notHasChildren) {
-      this.amount = undefined;
+      this.amount = 0;
       return;
     }
     children.forEach((child, index) => {
@@ -56,8 +60,12 @@ class BalanceDetail {
   }
 
   recountAmount = (child) => {
-    const diff = child.amount - child._lastAmount;
-    this.amount = this.amount + diff;
+    const diff = Number(child.amount || 0) - Number(child._lastAmount || 0);
+    this.amount = (this.amount + diff).toFixed(2);
+  }
+
+  isParentOf(child) {
+    return !!this.children.find(item => item.key === child.key);
   }
 
   generateKey = suffix => `${this.key}-${suffix}`
@@ -69,7 +77,7 @@ class BalanceDetail {
 
   set amount(val) {
     this._lastAmount = this._amount;
-    this._amount = val;
+    this._amount = Number(val);
     if (this.updateParentAmount && this.updateParentAmount instanceof Function) {
       this.updateParentAmount(this);
     }

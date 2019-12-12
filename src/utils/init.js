@@ -32,7 +32,7 @@ const registerCommonComponent = () => {
     const componentConfig = requireComponent(path);
     const componentName = upperFirst(
       camelCase(
-        utils.getFileNameByPath(path)
+        utils.StringUtils.getFileNameByPath(path)
       )
     );
     // Globally register the component
