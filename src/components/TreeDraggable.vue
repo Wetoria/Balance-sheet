@@ -8,7 +8,7 @@
     default-expand-all
     draggable
   >
-    <template v-slot="{ node, data }" v-if="$slots">
+    <template v-slot="{ node, data }" v-if="$scopedSlots.default">
       <slot v-bind:data="data" v-bind:node="node"></slot>
     </template>
   </el-tree>
