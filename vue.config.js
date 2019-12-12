@@ -11,6 +11,8 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('@components', resolve('src/components'))
+      .set('@domains', resolve('src/domains'))
+      .set('@services', resolve('src/services'))
       .set('@pages', resolve('src/pages'))
       .set('@router', resolve('src/router'))
       .set('@store', resolve('src/store'))
