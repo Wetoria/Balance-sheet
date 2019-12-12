@@ -54,7 +54,7 @@ const registerCommonComponent = () => {
   );
 
   requireComponent.keys().forEach((path) => {
-    const componentConfig = () => requireComponent(path);
+    const componentConfig = requireComponent(path);
     const componentName = upperFirst(
       camelCase(
         utils.getFileNameByPath(path)
