@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import utils from '@utils';
+import lodash from 'lodash';
 
 const { prototype } = Vue;
 
@@ -41,6 +42,29 @@ const initAppData = () => {
   }
 };
 
+const upperFirst = lodash.upperFirst;
+const camelCase = lodash.camelCase;
+
+
+const registerCommonComponent = () => {
+  const requireComponent = require.context(
+    '../components',
+    true,
+    /[A-Z]\w+\.(vue)$/
+  );
+
+  requireComponent.keys().forEach((path) => {
+    const componentConfig = () => requireComponent(path);
+    const componentName = upperFirst(
+      camelCase(
+        utils.getFileNameByPath(path)
+      )
+    );
+    // Globally register the component
+    Vue.component(componentName, componentConfig.default || componentConfig);
+  });
+};
+
 const init = () => {
   setEnv();
   setElectron();
@@ -51,6 +75,8 @@ const init = () => {
   mountFS();
 
   initAppData();
+
+  registerCommonComponent();
 };
 
 export default init;
