@@ -18,6 +18,7 @@ module.exports = {
     // 'import/no-extraneous-dependencies': 0,
     'import/no-dynamic-require': 0, // todo 只在特定文件内可以用
 
+
     'array-callback-return': 0,
     'consistent-return': 0,
     'comma-dangle': [2, 'always-multiline'],
@@ -51,7 +52,7 @@ module.exports = {
     'no-spaced-func': 2, //函数调用时 函数名与()之间不能有空格
     'no-trailing-spaces': 2, //一行结束后面有空格就发出警告
     'no-undef': 2, //不能有未定义的变量
-    'no-underscore-dangle': 2, //标识符不能以_开头或结尾
+    'no-underscore-dangle': 0,
     'no-unreachable': 2, //不能有无法执行的代码
     'no-unused-vars': [2, { 'vars': 'all', 'args': 'after-used' }], //不能有声明后未被使用的变量或参数
     'no-use-before-define': 2, //未定义前不能使用
