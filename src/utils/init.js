@@ -7,29 +7,6 @@ const { prototype } = Vue;
 const electron = window.require('electron');
 const isDev = process.env.NODE_ENV === 'development';
 
-// set attributes
-const setEnv = () => {
-  Vue.prototype.isDev = isDev;
-};
-
-const setElectron = () => {
-  Vue.prototype.electron = electron;
-};
-
-const setBasePath = () => {
-  const { remote } = electron;
-  // TODO: Write a default config file.
-  // When start app at first time, write config file to next path.
-  // After init config file, while starting app, read config file to init base path.
-  const basePath = isDev ? '.' : `${remote.app.getPath('userData')}/data`;
-  Vue.prototype.BASE_PATH = basePath;
-};
-
-// mount modules
-const mountFS = () => {
-  const fs = window.require('electron').remote.require('fs');
-  Vue.prototype.fileSys = fs;
-};
 
 // init functions
 const initAppData = () => {
@@ -42,11 +19,9 @@ const initAppData = () => {
   }
 };
 
-const upperFirst = lodash.upperFirst;
-const camelCase = lodash.camelCase;
-
-
 const registerCommonComponent = () => {
+  const upperFirst = lodash.upperFirst;
+  const camelCase = lodash.camelCase;
   const requireComponent = require.context(
     '../components',
     true,
@@ -66,13 +41,21 @@ const registerCommonComponent = () => {
 };
 
 const init = () => {
-  setEnv();
-  setElectron();
-  setBasePath();
-
+  Vue.prototype.isDev = isDev;
+  Vue.prototype.electron = electron;
   Vue.prototype.$utils = utils;
+  Vue.prototype._ = lodash;
 
-  mountFS();
+  const { remote } = electron;
+  // TODO: Write a default config file.
+  // When start app at first time, write config file to next path.
+  // After init config file, while starting app, read config file to init base path.
+  const basePath = isDev ? '.' : `${remote.app.getPath('userData')}/data`;
+  Vue.prototype.BASE_PATH = basePath;
+
+
+  const fs = window.require('electron').remote.require('fs');
+  Vue.prototype.fileSys = fs;
 
   initAppData();
 
