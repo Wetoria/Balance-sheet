@@ -10,9 +10,11 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', resolve('src'))
-      .set('@components', resolve('src/common/components'))
+      .set('@components', resolve('src/components'))
       .set('@pages', resolve('src/pages'))
-      .set('@common', resolve('src/common'))
-      .set('@assets', resolve('src/common/assets'));
+      .set('@router', resolve('src/router'))
+      .set('@store', resolve('src/store'))
+      .set('@utils', resolve('src/utils'))
+      .set('@assets', resolve('src/assets'));
   },
 };
