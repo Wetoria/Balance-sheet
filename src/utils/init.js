@@ -5,7 +5,7 @@ import lodash from 'lodash';
 const { prototype } = Vue;
 
 const electron = window.require('electron');
-const isDev = !!process.env.ELECTRON_START_URL;
+const isDev = process.env.NODE_ENV === 'development';
 
 // set attributes
 const setEnv = () => {
@@ -21,7 +21,7 @@ const setBasePath = () => {
   // TODO: Write a default config file.
   // When start app at first time, write config file to next path.
   // After init config file, while starting app, read config file to init base path.
-  const basePath = isDev ? './' : `${remote.app.getPath('userData')}/data`;
+  const basePath = isDev ? '.' : `${remote.app.getPath('userData')}/data`;
   Vue.prototype.BASE_PATH = basePath;
 };
 
